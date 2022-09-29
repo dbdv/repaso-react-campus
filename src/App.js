@@ -1,11 +1,22 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { SignInForm } from "./components/SignInForm";
 
 function App() {
   return (
-    <div className="container">
-      <SignInForm />;
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SignInForm />} />
+        <Route
+          path="home"
+          element={
+            <div className="container">
+              <h1>Home</h1>
+            </div>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

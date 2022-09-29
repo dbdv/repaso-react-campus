@@ -1,9 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {Button} from "./Button";
+import {getToken} from "../services/login"
 import "../styles/SignInForm.css"
+import { useNavigate } from "react-router-dom";
 
 export function SignInForm(){
     const [formData, setFormData] = useState({});
+    const navigate = useNavigate()
 
     const handleChange = (e)=>{
         const currentData = formData
@@ -15,23 +18,28 @@ export function SignInForm(){
             currentData[key]= e.target.value
             setFormData(currentData)
         }
-        console.log(formData)
     }
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async (e)=>{
         e.preventDefault();
-        if(formData.password === "123" && formData.email === "test@test.com")
-            return alert("Los datos ingresados son correctos")
-        alert("Los datos ingresados no coinciden con un usuario activo. Vuelva a Ingresarlos")
+        
+
+         
+           const token =await getToken(formData)
+            debugger
+           if(token) navigate("/home") 
+            
     }
 
     return(
+        <div className="container">
+
         <form className="form">
             <h1 className="title">Sign In</h1>
             <label htmlFor="" className="textBox">
-                <span>Email adress</span>
+                <span>User name</span>
                 
-                <input type="Email" placeholder="Enter email" name="email" value={formData.email} onChange={handleChange}/>
+                <input type="text" placeholder="Enter user name" name="name" value={formData.email} onChange={handleChange}/>
             </label>
             <label htmlFor="" className="textBox">
                 <span>Password</span>
@@ -45,5 +53,6 @@ export function SignInForm(){
             <Button onPressAction={handleSubmit} innerText="Submit"/>
             <span>Forgot <a href="#recoveryPassPage">password?</a></span>
         </form>
+        </div>
     )
 }
